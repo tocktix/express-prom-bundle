@@ -1,7 +1,7 @@
 // TypeScript Version: 2.8
 
-import { Request, RequestHandler, Response } from 'express';
-import { DefaultMetricsCollectorConfiguration, Registry } from 'prom-client';
+import { Request, RequestHandler, Response } from "express";
+import { DefaultMetricsCollectorConfiguration, Registry } from "prom-client";
 
 export {};
 
@@ -13,9 +13,13 @@ declare namespace express_prom_bundle {
   }
 
   type NormalizePathEntry = [string | RegExp, string];
-  type NormalizePathFn = (req: Request, opts: Opts) => string;
+  type NormalizePathFn = (req: Request, res: Response, opts: Opts) => string;
   type NormalizeStatusCodeFn = (res: Response) => number | string;
-  type TransformLabelsFn = (labels: Labels, req: Request, res: Response) => void;
+  type TransformLabelsFn = (
+    labels: Labels,
+    req: Request,
+    res: Response
+  ) => void;
 
   interface Opts {
     autoregister?: boolean;
@@ -29,7 +33,7 @@ declare namespace express_prom_bundle {
 
     bypass?: (req: Request) => boolean;
 
-    metricType?: 'summary' | 'histogram';
+    metricType?: "summary" | "histogram";
 
     // https://github.com/siimon/prom-client#histogram
     buckets?: number[];
@@ -41,7 +45,9 @@ declare namespace express_prom_bundle {
 
     metricsPath?: string;
     httpDurationMetricName?: string;
-    promClient?: { collectDefaultMetrics?: DefaultMetricsCollectorConfiguration };
+    promClient?: {
+      collectDefaultMetrics?: DefaultMetricsCollectorConfiguration;
+    };
     promRegistry?: Registry;
     normalizePath?: NormalizePathEntry[] | NormalizePathFn;
     formatStatusCode?: NormalizeStatusCodeFn;
@@ -71,4 +77,6 @@ interface express_prom_bundle {
   normalizeStatusCode: express_prom_bundle.NormalizeStatusCodeFn;
 }
 
-declare function express_prom_bundle(opts: express_prom_bundle.Opts): express_prom_bundle.Middleware;
+declare function express_prom_bundle(
+  opts: express_prom_bundle.Opts
+): express_prom_bundle.Middleware;

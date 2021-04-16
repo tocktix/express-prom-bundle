@@ -189,8 +189,8 @@ function main(opts) {
       }
       if (opts.includePath) {
         labels.path = opts.normalizePath instanceof Function
-          ? opts.normalizePath(req, opts)
-          : main.normalizePath(req, opts);
+          ? opts.normalizePath(req, res, opts)
+          : main.normalizePath(req, res, opts);
       }
       if (opts.customLabels) {
         Object.assign(labels, opts.customLabels);
